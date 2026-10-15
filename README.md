@@ -45,11 +45,13 @@ Each working session maps to one branch and one pull request:
 | Layer | Where | What it stops |
 |---|---|---|
 | Permission rules | [.claude/settings.json](.claude/settings.json) | Known destructive commands; asks before commit, push, PR, ssh. Bypass mode is disabled |
-| Command guard hook | [.claude/hooks/](.claude/hooks/) | Variants the rules miss: wrapped commands, short flags, absolute paths |
+| Command guard hook | [.claude/hooks/](.claude/hooks/) | Parses each command: catches wrapped and nested commands, short flags, absolute paths. Blocks when no Python works |
 | pre-commit | [.pre-commit-config.yaml](.pre-commit-config.yaml) | Secrets in staged changes, MAC addresses, public IPv4, MAC-derived IPv6 |
-| CI | [.github/workflows/](.github/workflows/) | Everything above on every PR, plus a full-history secret scan |
+| CI | [.github/workflows/](.github/workflows/) | Hook tests and pre-commit on every PR, plus a full-history secret scan |
 
 Serial numbers cannot be detected automatically: review diffs for them.
+A four-part version number such as `7.0.14.20` looks like a public IPv4: add `allow-public-ip` on that line,
+for example as an HTML comment in Markdown.
 
 ## Terraform execution model
 
@@ -58,6 +60,15 @@ because HCP-hosted runners cannot reach the homelab LAN. Each component has its 
 See [.claude/skills/terraform/SKILL.md](.claude/skills/terraform/SKILL.md).
 
 ## Local setup
+
+Requirements on each machine that works on this repository:
+
+| Tool | Why |
+|---|---|
+| Python 3.8+ as `python3`, `python` or `py` | Runs the command guard hook and pre-commit |
+| `sh` (Git Bash on Windows) | Runs the hook launcher |
+| Claude Code 2.1.295+ | `onFailure: block` also blocks when the launcher itself fails |
+| pre-commit | Local secret and public-data checks |
 
 Install the git hooks once per clone:
 

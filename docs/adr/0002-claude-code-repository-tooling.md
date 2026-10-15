@@ -39,7 +39,7 @@ and permission rules enforce the critical safety rules mechanically.
 | `/support` | `.claude/skills/support/` | Session default |
 | `/apply-review` | `.claude/skills/apply-review/` | Session default |
 | Safety: permission rules, bypass mode disabled | `.claude/settings.json` | Not applicable |
-| Safety: command guard hook (`PreToolUse`) | `.claude/hooks/guard_dangerous_commands.py` | Not applicable |
+| Safety: command guard hook (`PreToolUse`), fail-closed launcher | `.claude/hooks/guard_dangerous_commands.py`, `.claude/hooks/run_guard.sh` | Not applicable |
 | Safety: public-data and secret checks | `.pre-commit-config.yaml`, `.gitleaks.toml` | Not applicable |
 | Safety: CI on every PR and push to `main` | `.github/workflows/repository-checks.yml` | Not applicable |
 | Session handoffs | `.claude/session-notes/`, git-ignored | Not applicable |
@@ -53,11 +53,16 @@ and can be called as `/community-scripts <app>`.
 - Good: `terraform apply`, `destroy`, force push and similar commands are blocked by configuration, not only by instructions.
   Permission rules and the hook add up: deny rules still apply whatever the hook returns.
 - Bad: conventions are spread across several files; `CLAUDE.md` lists where things live.
-- Bad: permission rules and the hook match command text. The hook checks each line and chained command,
-  which covers wrapped commands, short flags and absolute paths, but not a script written to disk and run later.
+- Good: the hook parses commands instead of matching text. It finds the real program behind wrappers and paths,
+  unwraps nested commands (`sh -c`, `pwsh -Command`, `eval`, `ssh`, `$(...)`, backticks, `find -exec`),
+  and reads options the way each tool does. Quoted text such as a PR title is not mistaken for a command.
+- Good: the launcher blocks the command (exit code 2) when no Python 3.8+ interpreter works,
+  on any Claude Code version. `onFailure: block` also covers launcher crashes and timeouts, from Claude Code 2.1.295.
+- Bad: permission rules are text patterns, and the hook does not inspect a script written to disk and run later.
   The written rules still apply.
-- Bad: the hook also blocks harmless commands that quote a dangerous one on the same line, such as `echo`.
+- Bad: every line of a heredoc is inspected as a command, and backticks are treated as command substitution.
   Documentation edits that contain such text go through the file editing tools.
+- Bad: the hook needs `sh` and Python 3.8+. On Windows, Claude Code provides `sh` through Git Bash.
 - Bad: serial numbers cannot be detected automatically; diffs must be reviewed for them.
 
 ### Confirmation
@@ -92,3 +97,4 @@ and can be called as `/community-scripts <app>`.
 |---|---|---|
 | 2026-10-15 | Created | |
 | 2026-10-15 | Added `/apply-review`, the command guard hook, disabled bypass mode, public-data checks in pre-commit, a Proxmox token rule for gitleaks, and CI | An external review showed that permission rules can be bypassed, that public-data rules had no enforcement, and that pre-commit only ran locally |
+| 2026-10-15 | Rewrote the hook to parse commands, added the fail-closed launcher, `pvesh`/`pvesm`/`pvecm` rules, an IPv4 exception marker, and a wider Proxmox token rule | A second review reproduced hook bypasses, false positives that broke `/pr`, a hook that could not start on macOS (`python` missing), and a fail-closed claim that depended on the Claude Code version |
