@@ -1,0 +1,38 @@
+# Terraform
+**/.terraform/*
+*.tfstate
+*.tfstate.*
+*.tfplan
+*.tfplan.json
+crash.log
+crash.*.log
+*.tfvars
+*.tfvars.json
+!*.example.tfvars
+override.tf
+override.tf.json
+*_override.tf
+*_override.tf.json
+.terraformrc
+terraform.rc
+
+# Packer
+packer_cache/
+*.pkrvars.hcl
+!*.example.pkrvars.hcl
+
+# Secrets
+.env
+.env.*
+*.pem
+*.key
+
+# Claude Code local files
+.claude/settings.local.json
+.claude/session-notes/
+CLAUDE.local.md
+
+# OS and editors
+.DS_Store
+Thumbs.db
+.vscode/
