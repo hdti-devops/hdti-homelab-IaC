@@ -40,6 +40,9 @@ Folders such as `terraform/` and `packer/` are added when the first resource nee
 Each working session maps to one branch and one pull request:
 `/pr` -> external review -> `/apply-review` -> merge -> `/retro`.
 
+Decision first: a new or superseding architecture decision is merged in its own `adr/<name>` PR
+before its implementation starts in a later session. See the [ADR process](.claude/skills/adr/SKILL.md).
+
 ## Safety layers
 
 | Layer | Where | What it stops |

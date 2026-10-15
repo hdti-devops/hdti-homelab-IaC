@@ -98,3 +98,4 @@ and can be called as `/community-scripts <app>`.
 | 2026-10-15 | Created | |
 | 2026-10-15 | Added `/apply-review`, the command guard hook, disabled bypass mode, public-data checks in pre-commit, a Proxmox token rule for gitleaks, and CI | An external review showed that permission rules can be bypassed, that public-data rules had no enforcement, and that pre-commit only ran locally |
 | 2026-10-15 | Rewrote the hook to parse commands, added the fail-closed launcher, `pvesh`/`pvesm`/`pvecm` rules, an IPv4 exception marker, and a wider Proxmox token rule | A second review reproduced hook bypasses, false positives that broke `/pr`, a hook that could not start on macOS (`python` missing), and a fail-closed claim that depended on the Claude Code version |
+| 2026-10-15 | `/pr` enforces the decision-first workflow of ADR-0001; `git-operator` accepts `adr/` branches | Tooling support for the ADR-0001 revision |
