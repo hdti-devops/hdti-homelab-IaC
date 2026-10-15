@@ -1,11 +1,12 @@
 # Install once per clone: `pip install pre-commit && pre-commit install`
 # Update pinned revisions: `pre-commit autoupdate --freeze`
-# Terraform, Packer and workflow hooks are added when those folders exist.
+# Note: the gitleaks hook scans staged changes only. CI scans the full history.
 repos:
   - repo: https://github.com/pre-commit/pre-commit-hooks
     rev: 3e8a8703264a2f4a69428a0aa4dcb512790b2c8c # frozen: v6.0.0
     hooks:
       - id: check-added-large-files
+      - id: check-json
       - id: check-merge-conflict
       - id: check-yaml
       - id: detect-private-key
@@ -19,3 +20,33 @@ repos:
     rev: 83d9cd684c87d95d656c1458ef04895a7f1cbd8e # frozen: v8.30.1
     hooks:
       - id: gitleaks
+
+  - repo: https://github.com/rhysd/actionlint
+    rev: 914e7df21a07ef503a81201c76d2b11c789d3fca # frozen: v1.7.12
+    hooks:
+      - id: actionlint
+
+  # Public repository: block data that must never be published (CLAUDE.md).
+  - repo: local
+    hooks:
+      - id: no-mac-address
+        name: No MAC addresses
+        language: pygrep
+        entry: '(?i)\b([0-9a-f]{2}[:-]){5}[0-9a-f]{2}\b'
+        types: [text]
+        exclude: ^\.pre-commit-config\.yaml$
+      - id: no-eui64-ipv6-address
+        name: No IPv6 addresses derived from a MAC (EUI-64)
+        language: pygrep
+        entry: '(?i)\b[0-9a-f]{0,2}ff:fe[0-9a-f]{2}:[0-9a-f]{1,4}\b'
+        types: [text]
+        exclude: ^\.pre-commit-config\.yaml$
+      - id: no-public-ipv4-address
+        name: No public IPv4 addresses (for a four-part version number, add allow-public-ip on that line)
+        language: pygrep
+        # Allowed: RFC1918, loopback, link-local, CGNAT, documentation ranges, 0.0.0.0, 255.x, Cloudflare DNS resolvers.
+        # Skipped: lines containing the marker allow-public-ip, and numbers preceded by a letter or a dot (v1.2.3.4)
+        # or followed by another numeric part (1.2.3.4.5).
+        entry: '^(?!.*allow-public-ip).*?(?<![\w.-])(?!(?:10|127)\.|192\.168\.|172\.(?:1[6-9]|2\d|3[01])\.|169\.254\.|100\.(?:6[4-9]|[7-9]\d|1[01]\d|12[0-7])\.|192\.0\.2\.|198\.51\.100\.|203\.0\.113\.|0\.0\.0\.0|255\.|1\.1\.1\.1\b|1\.0\.0\.1\b)(?:25[0-5]|2[0-4]\d|1?\d?\d)(?:\.(?:25[0-5]|2[0-4]\d|1?\d?\d)){3}\b(?!\.\d)'
+        types: [text]
+        exclude: ^\.pre-commit-config\.yaml$

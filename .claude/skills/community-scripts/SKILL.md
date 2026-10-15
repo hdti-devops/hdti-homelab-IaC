@@ -6,8 +6,6 @@ argument-hint: "<app name or community-scripts.org URL>"
 
 # Community scripts installs
 
-Reply to the user in French.
-
 ## Rules
 - Only use scripts from https://community-scripts.org/, whose source is https://github.com/community-scripts/ProxmoxVE. Never use mirrors or forks.
 - Always use the **Advanced** install mode.

@@ -17,7 +17,7 @@ Values are installed capacity, not free capacity. Check live state before any pl
 | Field | `pve` | `pve2` |
 |---|---|---|
 | IP | `192.168.2.200` | `192.168.2.201` |
-| Proxmox VE | 9.2.21, kernel 7.0.14-19-pve | **Unverified** |
+| Proxmox VE | 9.2.21, kernel 7.0.14-19-pve | 9.2.21, kernel 7.0.14-20-pve |
 | CPU | AMD Ryzen 7 5800H, 8C/16T | Intel Core i7-6700T, 4C/8T, QuickSync HD 530 |
 | RAM installed | 32 GB | 8 GB |
 | RAM visible to the OS | 28 GiB | 7.5 GiB |
@@ -28,6 +28,7 @@ Values are installed capacity, not free capacity. Check live state before any pl
 | Preferred workloads | Kubernetes VMs, high-RAM, I/O-heavy | Lightweight infrastructure LXCs |
 
 Both storages share the single disk of each node.
+Kernels differ: `pve` has only 7.0.14-19 installed, so it has not received the 7.0.14-20 update yet.
 
 ## Network
 
