@@ -9,6 +9,7 @@ Status values: Planned, In progress, Done.
 |---|---|---|
 | Repository structure, Claude Code tooling, ADR and runbook process | Done | ADR-0001, ADR-0002 |
 | Naming and ID conventions | Done | ADR-0003 |
+| Safety enforcement (command guard hook, public-data checks) and CI | Done | ADR-0002 revision |
 
 ## Phase 1: core network
 
@@ -45,4 +46,6 @@ Status values: Planned, In progress, Done.
 
 - Quorum device or third node: postponed ([ADR-0004](adr/0004-two-node-cluster-without-quorum-device.md)).
 - Backup strategy for guests and configuration: not decided yet.
+- Align `pve` with `pve2` on package updates (kernel 7.0.14-20).
+- DNS redundancy: a secondary Technitium on the other node, decided in the Technitium ADR.
 - Terraform execution through an HCP agent or the self-hosted runner instead of local execution.

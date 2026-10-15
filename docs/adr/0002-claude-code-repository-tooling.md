@@ -37,7 +37,11 @@ and permission rules enforce the critical safety rules mechanically.
 | `/pr` git phase | `.claude/agents/git-operator.md` | Sonnet |
 | `/retro` | `.claude/skills/retro/` | Sonnet |
 | `/support` | `.claude/skills/support/` | Session default |
-| Safety enforcement | `.claude/settings.json` | Not applicable |
+| `/apply-review` | `.claude/skills/apply-review/` | Session default |
+| Safety: permission rules, bypass mode disabled | `.claude/settings.json` | Not applicable |
+| Safety: command guard hook (`PreToolUse`) | `.claude/hooks/guard_dangerous_commands.py` | Not applicable |
+| Safety: public-data and secret checks | `.pre-commit-config.yaml`, `.gitleaks.toml` | Not applicable |
+| Safety: CI on every PR and push to `main` | `.github/workflows/repository-checks.yml` | Not applicable |
 | Session handoffs | `.claude/session-notes/`, git-ignored | Not applicable |
 
 There is no separate `/install` command: the `community-scripts` skill triggers automatically when an install is planned,
@@ -47,8 +51,14 @@ and can be called as `/community-scripts <app>`.
 
 - Good: `CLAUDE.md` stays small, so each session starts cheap.
 - Good: `terraform apply`, `destroy`, force push and similar commands are blocked by configuration, not only by instructions.
+  Permission rules and the hook add up: deny rules still apply whatever the hook returns.
 - Bad: conventions are spread across several files; `CLAUDE.md` lists where things live.
-- Bad: permission patterns match command text and can miss unusual spellings, so the written rules still apply.
+- Bad: permission rules and the hook match command text. The hook checks each line and chained command,
+  which covers wrapped commands, short flags and absolute paths, but not a script written to disk and run later.
+  The written rules still apply.
+- Bad: the hook also blocks harmless commands that quote a dangerous one on the same line, such as `echo`.
+  Documentation edits that contain such text go through the file editing tools.
+- Bad: serial numbers cannot be detected automatically; diffs must be reviewed for them.
 
 ### Confirmation
 
@@ -81,3 +91,4 @@ and can be called as `/community-scripts <app>`.
 | Date | Change | Reason |
 |---|---|---|
 | 2026-10-15 | Created | |
+| 2026-10-15 | Added `/apply-review`, the command guard hook, disabled bypass mode, public-data checks in pre-commit, a Proxmox token rule for gitleaks, and CI | An external review showed that permission rules can be bypassed, that public-data rules had no enforcement, and that pre-commit only ran locally |

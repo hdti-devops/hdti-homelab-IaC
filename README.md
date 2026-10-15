@@ -19,22 +19,37 @@ Planned services and their status are in [docs/roadmap.md](docs/roadmap.md).
 | Path | Purpose |
 |---|---|
 | [CLAUDE.md](CLAUDE.md) | Global instructions for Claude Code |
-| [.claude/](.claude/) | Claude Code skills, commands, agent and permissions |
+| [.claude/](.claude/) | Claude Code skills, commands, agent, permissions and safety hook |
+| [.github/workflows/](.github/workflows/) | CI: repository checks on every PR and push to `main` |
 | [docs/adr/](docs/adr/) | Architecture Decision Records |
 | [docs/runbooks/](docs/runbooks/) | Reproducible procedures for every installed service |
 | [docs/architecture/](docs/architecture/) | Inventory and architecture reference |
 
-Folders such as `terraform/`, `packer/` and `.github/workflows/` are added when the first resource needs them.
+Folders such as `terraform/` and `packer/` are added when the first resource needs them.
 
 ## Working with Claude Code
 
 | Command | When |
 |---|---|
 | `/pr` | A task is done: review docs and ADRs, validate, then commit, push and open a PR after approval |
+| `/apply-review <review>` | A PR was reviewed: verify each point, plan the fixes and apply them to the same PR |
 | `/retro` | A session is done: write a local handoff and get the prompt to resume next time |
 | `/support <error>` | Something is broken: investigate, find the root cause, propose a fix and document it |
+| `/community-scripts <app>` | Install a service with a community script, with a runbook as output |
 
-Each working session maps to one branch and one pull request.
+Each working session maps to one branch and one pull request:
+`/pr` -> external review -> `/apply-review` -> merge -> `/retro`.
+
+## Safety layers
+
+| Layer | Where | What it stops |
+|---|---|---|
+| Permission rules | [.claude/settings.json](.claude/settings.json) | Known destructive commands; asks before commit, push, PR, ssh. Bypass mode is disabled |
+| Command guard hook | [.claude/hooks/](.claude/hooks/) | Variants the rules miss: wrapped commands, short flags, absolute paths |
+| pre-commit | [.pre-commit-config.yaml](.pre-commit-config.yaml) | Secrets in staged changes, MAC addresses, public IPv4, MAC-derived IPv6 |
+| CI | [.github/workflows/](.github/workflows/) | Everything above on every PR, plus a full-history secret scan |
+
+Serial numbers cannot be detected automatically: review diffs for them.
 
 ## Terraform execution model
 
