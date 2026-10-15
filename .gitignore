@@ -32,6 +32,10 @@ packer_cache/
 .claude/session-notes/
 CLAUDE.local.md
 
+# Python
+__pycache__/
+*.pyc
+
 # OS and editors
 .DS_Store
 Thumbs.db
