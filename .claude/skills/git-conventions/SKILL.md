@@ -6,8 +6,10 @@ description: Branch naming, Conventional Commits with emojis, PR title and body 
 # Git conventions
 
 ## Branches
-Short, descriptive, English, kebab-case: `feature/<name>`, `bugfix/<name>`, `hotfix/<name>`, `refactor/<name>`, `docs/<name>`.
+Short, descriptive, English, kebab-case: `feature/<name>`, `bugfix/<name>`, `hotfix/<name>`, `refactor/<name>`, `docs/<name>`,
+and `adr/<name>` for decision PRs (`adr` skill, decision-first workflow).
 One session = one branch = one PR, branched from an up-to-date `main`.
+A new or superseding decision and its implementation are two sessions: `adr/<name>` first, merged, then the implementation branch.
 
 ## Commits
 Format: `<type>(<optional scope>): <emoji> <imperative subject>`, English, subject of 72 characters or less.
@@ -23,7 +25,7 @@ Example: `docs(adr): 📝 add naming and ID conventions`.
 | `ci` | 👷 | Workflows and runners |
 | `revert` | ⏪ | Revert a commit |
 
-- Scopes are component names, such as `proxmox`, `dns`, `terraform`, `claude`, `adr`.
+- Scopes are component names, such as `proxmox`, `dns`, `terraform`, `claude`, `adr`. Decision PRs use `docs(adr):`.
 - One logical change per commit. The body explains why.
 - Breaking change: `!` after the type and a `BREAKING CHANGE:` footer.
 - Release Please is not configured. When it is, check its configuration before adding types or scopes.
@@ -41,6 +43,27 @@ ADR links, or "None".
 |---|---|
 ## ⚠️ Risks and rollback
 ## 📌 Follow-ups
+```
+
+Decision PRs (`adr/<name>`) use this body instead:
+
+```markdown
+## 🏛️ Decision
+ADR link, one-sentence decision, status Proposed.
+## 🔀 Options considered
+## 📐 Derived conventions
+CLAUDE.md, skills or templates changed by this decision, or "None".
+## 🔎 Review checklist
+- [ ] Context factual and verified
+- [ ] At least two realistic options, honest pros and cons
+- [ ] Explicit drivers; the choice follows from them
+- [ ] Negative consequences and risks named
+- [ ] Revisit triggers stated
+- [ ] Derived conventions included and consistent
+- [ ] No implementation in this PR
+- [ ] Status Proposed during review, Accepted only after approval
+## 🚀 Implementation
+Planned follow-up branch, started after this PR is merged.
 ```
 
 ## Change safety

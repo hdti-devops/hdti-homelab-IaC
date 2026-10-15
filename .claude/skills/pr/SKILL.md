@@ -11,6 +11,11 @@ argument-hint: "[optional notes for the PR]"
 
 1. **Scope.** Run `git status`, `git diff`, and `git diff main...HEAD` when on a branch. List the changed components.
    If untracked or modified files look unrelated to the task, stop and ask the user how to handle them.
+   **Decision-first check** (`adr` skill):
+   - On an `adr/` branch, the diff must contain no implementation. Apply the decision PR review checklist.
+   - On any other branch, if the diff adds a new or superseding ADR together with implementation, or implements
+     something that relies on an ADR missing from `main` or not `Accepted` there, stop and propose to split:
+     the decision PR first, the implementation after it is merged.
 2. **Documentation sync.** For each changed component, check and update when facts changed:
    - `docs/architecture/inventory.md`: hosts, IPs, VMIDs, placement, access.
    - `docs/roadmap.md`: status of the items worked on.
@@ -38,3 +43,8 @@ the commit message(s), the PR title and the PR body.
 If a PR is already open for the branch, for example after `/apply-review`, say so: the agent pushes the new commits
 to it instead of creating a PR.
 Relay its result to the user: PR URL, or the exact error and what you suggest.
+
+## Accepting a decision PR
+When the user approves the decision of an open `adr/` PR, run `/pr` again: set the ADR status to `Accepted`
+with the acceptance date and update the ADR index, then delegate one commit `docs(adr): ✅ accept ADR-NNNN`.
+The user merges the PR afterwards.

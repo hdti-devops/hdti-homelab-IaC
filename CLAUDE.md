@@ -13,6 +13,8 @@ The repository is **public**: never commit public IPs, MAC addresses, serial num
 - When anything is ambiguous, ask before planning. Never assume; ask.
 - Present a plan and wait for explicit approval before writing code or changing files.
 - One working session = one branch = one pull request.
+- Decision first: a new or superseding ADR is delivered and merged in its own `adr/<name>` PR before any implementation
+  branch starts. Decision and implementation are two sessions. Details in the `adr` skill.
 - Create only what the current task needs: no speculative files or folders. Keep `docs/roadmap.md` in mind so the result stays modular and easy to extend.
 - Make the minimal change. Never overwrite or remove previous work without explicit permission; explain why when it is required.
 - Never invent infrastructure facts. Verify them against the repo or live systems, or give the user read-only commands to run and ask for the output.

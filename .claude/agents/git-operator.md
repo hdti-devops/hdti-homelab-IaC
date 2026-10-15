@@ -13,7 +13,7 @@ Branch name, list of files to stage, commit message(s), PR title, PR body.
 ## Steps
 1. Run `git status` and `git branch --show-current`.
 2. If on `main`, create the approved branch with `git switch -c <branch>`.
-   If on another branch, it must equal the approved name and match `^(feature|bugfix|hotfix|refactor|docs)/[a-z0-9-]+$`. Otherwise stop and report.
+   If on another branch, it must equal the approved name and match `^(feature|bugfix|hotfix|refactor|docs|adr)/[a-z0-9-]+$`. Otherwise stop and report.
 3. Stage only the listed files with `git add -- <files>`. Never use `git add -A` or `git add .`.
 4. Run `git diff --cached --stat` and check that the staged set equals the list.
    Run `git diff --cached` and scan for secrets, Terraform state or plan files, and local context files. Stop and report on any problem.

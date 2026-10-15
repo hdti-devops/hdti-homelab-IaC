@@ -21,7 +21,8 @@ Use the most capable model available: this is analysis and architecture work.
 1. **Load.** Read the review: pasted text, the given file, or `gh pr view <number> --comments` and
    `gh api repos/{owner}/{repo}/pulls/<number>/comments`. Confirm the branch and open PR with `git branch --show-current`
    and `gh pr view --json url,state`. If the PR is already merged, the fixes go to a new branch and PR.
-2. **Assess each point.** For each one, give a verdict with a one-line reason:
+2. **Assess each point.** On a decision PR (`adr/` branch), also check the review checklist of the `adr` skill.
+   For each point, give a verdict with a one-line reason:
    agree, partially agree (what changes), disagree (why, with evidence), or not applicable.
    Flag claims you could not verify, and points that refer to missing content.
 3. **Questions.** Ask the user about every point whose resolution is a choice and not a fact.
