@@ -1,0 +1,46 @@
+{
+  "$schema": "https://json.schemastore.org/claude-code-settings.json",
+  "permissions": {
+    "deny": [
+      "Bash(terraform *apply*)",
+      "Bash(terraform *destroy*)",
+      "Bash(terraform *state rm*)",
+      "Bash(terraform *state push*)",
+      "Bash(terraform *force-unlock*)",
+      "Bash(git push -f*)",
+      "Bash(git push * -f*)",
+      "Bash(git push *--force*)",
+      "Bash(git reset --hard*)",
+      "Bash(git clean *)",
+      "Bash(git commit *--no-verify*)",
+      "PowerShell(terraform *apply*)",
+      "PowerShell(terraform *destroy*)",
+      "PowerShell(terraform *state rm*)",
+      "PowerShell(terraform *state push*)",
+      "PowerShell(terraform *force-unlock*)",
+      "PowerShell(git push -f*)",
+      "PowerShell(git push * -f*)",
+      "PowerShell(git push *--force*)",
+      "PowerShell(git reset --hard*)",
+      "PowerShell(git clean *)",
+      "PowerShell(git commit *--no-verify*)"
+    ],
+    "ask": [
+      "Bash(git commit *)",
+      "Bash(git push *)",
+      "Bash(gh pr create *)",
+      "Bash(gh pr merge *)",
+      "Bash(terraform *state mv*)",
+      "Bash(terraform *import*)",
+      "Bash(ssh *)",
+      "Bash(rm -rf *)",
+      "PowerShell(git commit *)",
+      "PowerShell(git push *)",
+      "PowerShell(gh pr create *)",
+      "PowerShell(gh pr merge *)",
+      "PowerShell(terraform *state mv*)",
+      "PowerShell(terraform *import*)",
+      "PowerShell(ssh *)"
+    ]
+  }
+}

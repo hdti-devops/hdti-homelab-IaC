@@ -1,0 +1,2 @@
+# Normalize line endings to LF: files are consumed by Linux hosts and runners.
+* text=auto eol=lf
