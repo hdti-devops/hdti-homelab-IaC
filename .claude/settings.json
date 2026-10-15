@@ -55,10 +55,7 @@
         "hooks": [
           {
             "type": "command",
-            "command": "python",
-            "args": [
-              "${CLAUDE_PROJECT_DIR}/.claude/hooks/guard_dangerous_commands.py"
-            ],
+            "command": "sh \"${CLAUDE_PROJECT_DIR}/.claude/hooks/run_guard.sh\"",
             "timeout": 10,
             "onFailure": "block",
             "statusMessage": "Checking command against safety rules"
