@@ -29,7 +29,7 @@ packer_cache/
 
 # Claude Code local files
 .claude/settings.local.json
-.claude/session-notes/
+.claude/session-notes*
 CLAUDE.local.md
 
 # Python
