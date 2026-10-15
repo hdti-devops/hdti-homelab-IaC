@@ -6,8 +6,6 @@ argument-hint: "<error message or symptom>"
 
 # /support
 
-Reply to the user in French. Documentation is in English.
-
 ## Steps
 1. **Frame.** Restate the symptom. Identify component, node, VMID and hostname from `docs/architecture/inventory.md`.
 2. **Known issues.** Read the component runbook, especially its Troubleshooting section, and the related ADRs.

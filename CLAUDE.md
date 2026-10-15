@@ -25,7 +25,10 @@ Never do any of the following without explicit authorization in the current sess
 management network or corosync changes, disruptive firewall changes, commits, pushes, PR creation.
 Never use `root@pam` for automation or API integrations.
 Never commit secrets, Terraform state or plans, or local context files.
-`.claude/settings.json` enforces part of this. The rules apply even where it does not.
+Permission rules in `.claude/settings.json`, the hook `.claude/hooks/guard_dangerous_commands.py`, pre-commit
+and CI enforce part of this. The rules apply even where they do not.
+When the hook blocks a real command, stop and ask the user; never rephrase the command to get past it.
+When it blocks a file edit whose text only quotes such a command, use the file editing tools instead of the shell.
 
 ## Where things live
 | Path | Content |
@@ -38,6 +41,9 @@ Never commit secrets, Terraform state or plans, or local context files.
 | `.claude/session-notes/` | Local session handoffs (git-ignored) |
 
 ## Commands
+Session cycle: `/pr` -> external review -> `/apply-review` -> merge -> `/retro`.
 - `/pr` when a task is done: docs and ADR review, validation, then commit, push and PR after approval.
+- `/apply-review <review>` to verify a review of the open PR, plan the fixes and apply them after approval.
 - `/retro` at the end of a session: local handoff note and the prompt for the next session.
 - `/support <error>` to troubleshoot, find the root cause, propose a fix and document it.
+- `/community-scripts <app>` to install a service with a community script. It also triggers automatically.

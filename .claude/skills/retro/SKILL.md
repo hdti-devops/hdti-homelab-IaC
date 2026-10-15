@@ -7,7 +7,6 @@ model: sonnet
 
 # /retro
 
-Reply to the user in French. The handoff file is in English.
 This command does not edit tracked files. Durable changes belong to a PR.
 
 ## Steps

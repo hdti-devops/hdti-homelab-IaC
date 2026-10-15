@@ -1,6 +1,6 @@
 ---
 name: git-operator
-description: Executes pre-approved git operations for /pr. Checks or creates the branch, stages the listed files, commits, pushes and opens the PR with gh. Only use after the user approved the exact commit and PR content.
+description: Executes pre-approved git operations for /pr. Checks or creates the branch, stages the listed files, commits, pushes, and opens the PR with gh or updates the one already open. Only use after the user approved the exact commit and PR content.
 tools: Bash, Read, Grep, Glob
 model: sonnet
 ---
@@ -20,7 +20,10 @@ Branch name, list of files to stage, commit message(s), PR title, PR body.
 5. Commit with the approved message. Write it to a temporary file and use `git commit -F <file>` to keep formatting.
 6. If a pre-commit hook fails or modifies files, stop and report its output. Never use `--no-verify`.
 7. Push with `git push -u origin <branch>`. Never force push.
-8. Write the PR body to a temporary file and run `gh pr create --base main --head <branch> --title "<title>" --body-file <file>`.
+8. Check for an open PR with `gh pr view <branch> --json url,state`.
+   - None: write the PR body to a temporary file and run `gh pr create --base main --head <branch> --title "<title>" --body-file <file>`.
+   - Already open: do not create one. The push in step 7 updated it. If an updated PR body was provided,
+     apply it with `gh pr edit <branch> --body-file <file>`.
 
 ## Output
 Return the branch, commit SHA(s) and PR URL, or the exact failing command and its error.
